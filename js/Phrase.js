@@ -11,31 +11,49 @@ class Phrase{
 	* Display phrase on game board
 	*/
 	addPhraseToDisplay(){
-		const letter = this.phrase.split('');
+		const letters = this.phrase.split('');
 		const ul = document.querySelector('ul');
 			
-		for (let i = 0; i < letter.length; i += 1 ){
-			const letters = letter[i];
+		letters.forEach(letter => {
 			const li = document.createElement('li');
-				li.innerHTML = letters;
+				li.innerHTML = letter;
 				ul.appendChild(li);
-					if(letters !== " "){
-						li.setAttribute('class', "hide letter "  + letters);
+					if(letter !== " "){
+						li.setAttribute('class', "hide letter "  + letter);
 				 	} else{
 				 		li.setAttribute('class', "space");
 				 	}
-		}
+		});
+			
 	}
 
-	/*
-	* Checks to see if letter selected by player matches
-	* a letter in the phrase	
+	/**
+	* Checks if passed letter is in phrase
+	* @param (string) letter - Letter to check
 	*/
-	checkLetter(){}
+	checkLetter(letter){
+		const phrase = this.phrase.split('');
 
-	/*
-	*  Reveals letters that matches player letters  	
+		let boolVal = phrase.includes(letter);
+			
+		return boolVal;	
+	}
+
+	/**
+	* Displays passed letter on screen after a match is found
+	* @param (string) letter - Letter to display
 	*/
-	showMatchedLetter(){}
+	showMatchedLetter(letter){
+		const phrase = this.phrase.split('');
+		const matched = phrase.includes(letter);
+		const ul = document.querySelector('ul');
+		const li = ul.querySelectorAll('.hide');
+			
+		li.forEach( key => {
+			if(letter == key.innerHTML){
+				key.setAttribute('class', "show letter");
+			}
+		});		 		
+	}
 
 }
