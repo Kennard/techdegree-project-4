@@ -27,10 +27,35 @@
 	* Begins game by selecting a random phrase and displaying it to user
 	*/
   	startGame(){
+      // reset the game phrase keys
+      const ul = document.querySelector('ul');
+      const li = ul.querySelectorAll('li');  
+      li.forEach(key => {
+        ul.removeChild(key);
+      })
+      // reset button element class
+      const buttons = document.querySelectorAll('button')
+        buttons.forEach(button => {
+          button.disabled = false;
+          button.setAttribute('class', 'key')
+        });
+
+      // reset the heart image and misses
+       this.missed = 0;
+
+       const hearts = document.querySelectorAll('img');
+
+       hearts.forEach( heart => {
+        if(heart.getAttribute('src') == 'images/lostHeart.png'){
+           heart.setAttribute('src','images/liveHeart.png') 
+        }     
+       });  
+
+      // start game an add random phrase  
   		const start = document.getElementById('overlay');
   		start.style.display = 'none';
       this.activePhrase = new Phrase(this.getRandomPhrase().phrase);
-      this.activePhrase.addPhraseToDisplay();    
+      this.activePhrase.addPhraseToDisplay();  
   	}
 
 	 /**
@@ -42,45 +67,30 @@
       return phrase;
     }
 
-	/*
- 	* game logic
- 	*/
-  	handleInteraction(){
-  	/* Disable the selected letter’s onscreen keyboard button. */
-     const keyrow =  document.getElementById('qwerty');
-     const button = keyrow.querySelectorAll('button');
-
-        button.forEach( key => {
-          key.addEventListener('click', function(e){
-            e.target.disabled = true;             
-
-            let letter = e.target.innerHTML;
-                   
-            this.activePhrase = new Phrase(game.activePhrase.phrase);
-
-              this.activePhrase.checkLetter(letter);
+	/**
+  * Handles onscreen keyboard button clicks
+  * @param (HTMLButtonElement) button - The clicked button element
+  */
+  	handleInteraction(button){
+      //button represent the html element so we disabled here if clicked
+      button.disabled = true;    
+      // We pull the letter out of button element to test wether it matches our phrase
+      let letter = button.innerHTML;
+      let boolVal = this.activePhrase.checkLetter(letter);
              
+        if(boolVal == true){
+          button.setAttribute('class', "chosen");
+          this.activePhrase.showMatchedLetter(letter);
+          game.checkForWin();       
+        }else {
+          button.setAttribute('class', "wrong");
+          game.removeLife();
+        }  
 
-                let boolVal = this.activePhrase.checkLetter(letter);
-                   // console.log(boolVal);                 
-                     if(boolVal === true){
-                        if(letter == e.target.innerHTML){
-                          key.setAttribute('class', "chosen");
-                          this.activePhrase.showMatchedLetter(letter);
-                          game.checkForWin();
-                        } 
-                      } else {
-                        key.setAttribute('class', "wrong");
-                        game.removeLife();
-                    }  
-
-                  if(game.checkForWin() === true){
-                     game.gameOver(true);
-                  }  
-          });        
-
-        });
-
+        if(game.checkForWin() === true){
+            game.gameOver(true);
+          }  
+          
    	}
 
   	/**
@@ -91,18 +101,20 @@
     removeLife(){   
       const hearts = document.querySelectorAll('img');
       const lives =  this.missed ++;
-            
+      
+       console.log(lives); 
+
       hearts.forEach( function(heart, index) {
-        if(index === lives)(
+        if(index == lives){
             heart.setAttribute('src','images/lostHeart.png')
-          )      
+          }
         });
+
         if(lives === 4){
           this.gameOver(this.checkForWin());
         } 
 
     }
-
 
   	/**
     * Checks for winning move
@@ -127,8 +139,6 @@
        }else{
           return false;
       }
-
-
   	}
 
 	/**
@@ -148,8 +158,6 @@
            message.innerHTML = 'Sorry, better luck nex time!';
         }
     }
-
-
 
 
  }

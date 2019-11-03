@@ -15,14 +15,14 @@ class Phrase{
 		const ul = document.querySelector('ul');
 			
 		letters.forEach(letter => {
-			const li = document.createElement('li');
-				li.innerHTML = letter;
-				ul.appendChild(li);
-					if(letter !== " "){
-						li.setAttribute('class', "hide letter "  + letter);
-				 	} else{
-				 		li.setAttribute('class', "space");
-				 	}
+		const li = document.createElement('li');
+			li.innerHTML = letter;
+			ul.appendChild(li);
+				if(letter !== " "){
+					li.setAttribute('class', "hide letter "  + letter);
+			 	} else{
+			 		li.setAttribute('class', "space");
+			 	}
 		});
 			
 	}

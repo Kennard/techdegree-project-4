@@ -4,28 +4,14 @@
 
 const game  = new Game();
 
-document.getElementById('btn__reset').addEventListener('click', function(e){
-	
+document.getElementById('btn__reset').addEventListener('click', function(){
 	game.startGame();
 
 });
-
-				
-		
+	
 const button = document.getElementById('qwerty').addEventListener('click', function(e){
-
-			
-		if ( e.target.nodeName == "BUTTON") {
-
-				game.handleInteraction(button);
-		
-				console.log(button);
+		let button = e.target;
+		if ( button.nodeName == "BUTTON") {
+			game.handleInteraction(button);		
 		}
-
-
 });
-
-
-	
-	
-		
