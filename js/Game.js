@@ -73,22 +73,26 @@
   */
   	handleInteraction(button){
       //button represent the html element so we disabled here if clicked
-      button.disabled = true;    
+      
       // We pull the letter out of button element to test wether it matches our phrase
-      let letter = button.innerHTML;
-      let boolVal = this.activePhrase.checkLetter(letter);
-             
+      if(button.nodeName == "BUTTON"){
+          button.disabled = true; 
+          let letter = button.innerHTML;
+          let boolVal = this.activePhrase.checkLetter(letter);
+       
         if(boolVal == true){
           button.setAttribute('class', "chosen");
           this.activePhrase.showMatchedLetter(letter);
-          game.checkForWin();       
+          this.checkForWin();       
         }else {
           button.setAttribute('class', "wrong");
-          game.removeLife();
+          this.removeLife();
         }  
+  
+      } 
 
-        if(game.checkForWin() === true){
-            game.gameOver(true);
+          if(this.checkForWin() === true){
+            this.gameOver(true);
           }  
           
    	}
@@ -101,8 +105,6 @@
     removeLife(){   
       const hearts = document.querySelectorAll('img');
       const lives =  this.missed ++;
-      
-       console.log(lives); 
 
       hearts.forEach( function(heart, index) {
         if(index == lives){

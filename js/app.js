@@ -9,9 +9,12 @@ document.getElementById('btn__reset').addEventListener('click', function(){
 
 });
 	
-const button = document.getElementById('qwerty').addEventListener('click', function(e){
+const buttons = document.getElementById('qwerty');
+
+buttons.addEventListener('click', function(e){
 		let button = e.target;
 		if ( button.nodeName == "BUTTON") {
 			game.handleInteraction(button);		
 		}
 });
+
